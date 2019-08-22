@@ -81,7 +81,7 @@ Server selection algorithm:
   upstream block, or set "sticky_no_fallback" in a server or
   location block.
 
-- transfer: when this flag is set, nginx adds a cookie from the backend to the sticky cookie
+- transfer: when this flag is set, nginx adds a cookie from the backend to the sticky cookie  
   default: space
 
   Example for remove peer part from cookie before sand it to backend:
@@ -102,17 +102,17 @@ Server selection algorithm:
 - delimiter: delimiter to add a cookie from the backend  
 
 Cookie settings:
-- name:    the name of the cookie used to track the persistant upstream srv;
+- name:    the name of the cookie used to track the persistant upstream srv;  
   default: route
 
-- domain:  the domain in which the cookie will be valid
+- domain:  the domain in which the cookie will be valid  
   default: none. Let the browser handle this.
 
-- path:    the path in which the cookie will be valid
+- path:    the path in which the cookie will be valid  
   default: /
 
-- expires: the validity duration of the cookie
-  default: nothing. It's a session cookie.
+- expires: the validity duration of the cookie  
+  default: nothing. It's a session cookie.  
   restriction: must be a duration greater than one second
 
 - secure    enable secure cookies; transferred only via https
