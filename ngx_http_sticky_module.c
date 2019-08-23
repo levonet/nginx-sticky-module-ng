@@ -30,7 +30,7 @@ typedef struct {
 	time_t                        cookie_expires;
 	unsigned                      cookie_secure:1;
 	unsigned                      cookie_httponly:1;
-	unsigned					  transfer_cookie:1;
+	unsigned                      transfer_cookie:1;
 	ngx_str_t                     transfer_delim;
 	ngx_str_t                     hmac_key;
 	ngx_http_sticky_misc_hash_pt  hash;
@@ -194,6 +194,7 @@ static ngx_int_t ngx_http_init_sticky_peer(ngx_http_request_t *r, ngx_http_upstr
 	ngx_str_t                     route;
 	ngx_uint_t                    i;
 	ngx_int_t                     n;
+	u_char                       *p;
 
 	/* alloc custom sticky struct */
 	iphp = ngx_palloc(r->pool, sizeof(ngx_http_sticky_peer_data_t));
@@ -234,8 +235,6 @@ static ngx_int_t ngx_http_init_sticky_peer(ngx_http_request_t *r, ngx_http_upstr
 
 		/* extract digest from cookie */
 		if (iphp->sticky_conf->transfer_cookie) {
-			u_char *p;
-			ngx_str_t transfer_cookie;
 			p = ngx_strnstr(route.data, (char *)iphp->sticky_conf->transfer_delim.data, route.len);
 			if (p != NULL) {
 				route.len = p - route.data;
@@ -457,6 +456,9 @@ static ngx_int_t ngx_http_sticky_header_filter(ngx_http_request_t *r)
 	size_t len;
 
 	ctx = ngx_http_get_module_ctx(r, ngx_http_sticky_module);
+	if (ctx == NULL) {
+		return ngx_http_next_header_filter(r);
+	}
 
 	if (ctx->sticky_conf->transfer_cookie) {
 		if (ngx_http_parse_set_cookie_lines(&r->upstream->headers_in.cookies, &ctx->sticky_conf->cookie_name, &transfer_cookie) == NGX_DECLINED)
