@@ -241,7 +241,7 @@ static ngx_int_t ngx_http_init_sticky_peer(ngx_http_request_t *r, ngx_http_upstr
 
 	/* check weather a cookie is present or not and save it */
 #if defined(nginx_version) && nginx_version >= 1023000
-	if (ngx_http_parse_multi_header_lines(&r, &r->headers_in.cookie, &iphp->sticky_conf->cookie_name, &route) != NGX_DECLINED)
+	if (ngx_http_parse_multi_header_lines(r, &r->headers_in.cookie, &iphp->sticky_conf->cookie_name, &route) != NGX_DECLINED)
 #else
 	if (ngx_http_parse_multi_header_lines(&r->headers_in.cookies, &iphp->sticky_conf->cookie_name, &route) != NGX_DECLINED)
 #endif
@@ -478,7 +478,7 @@ static ngx_int_t ngx_http_sticky_header_filter(ngx_http_request_t *r)
 
 	if (ctx->sticky_conf->transfer_cookie) {
 #if defined(nginx_version) && nginx_version >= 1023000
-		if (ngx_http_parse_set_cookie_lines(&r, &r->upstream->headers_in.cookie, &ctx->sticky_conf->cookie_name, &transfer_cookie) == NGX_DECLINED)
+		if (ngx_http_parse_set_cookie_lines(r, &r->upstream->headers_in.cookie, &ctx->sticky_conf->cookie_name, &transfer_cookie) == NGX_DECLINED)
 #else
 		if (ngx_http_parse_set_cookie_lines(&r->upstream->headers_in.cookies, &ctx->sticky_conf->cookie_name, &transfer_cookie) == NGX_DECLINED)
 #endif
