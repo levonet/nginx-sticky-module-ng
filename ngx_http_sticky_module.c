@@ -478,7 +478,7 @@ static ngx_int_t ngx_http_sticky_header_filter(ngx_http_request_t *r)
 
 	if (ctx->sticky_conf->transfer_cookie) {
 #if defined(nginx_version) && nginx_version >= 1023000
-		if (ngx_http_parse_set_cookie_lines(r, r->upstream->headers_in.cookie, &ctx->sticky_conf->cookie_name, &transfer_cookie) == NULL)
+		if (ngx_http_parse_set_cookie_lines(r, r->upstream->headers_in.set_cookie, &ctx->sticky_conf->cookie_name, &transfer_cookie) == NULL)
 #else
 		if (ngx_http_parse_set_cookie_lines(&r->upstream->headers_in.cookies, &ctx->sticky_conf->cookie_name, &transfer_cookie) == NGX_DECLINED)
 #endif
